@@ -38,6 +38,20 @@ app.post("/api/news", async (req, res) => {
 });
 
 
+// DELETE NEWS
+app.delete("/api/news/:id", async (req, res) => {
+    try {
+        const deletedNews = await News.findByIdAndDelete(req.params.id);
+        if (!deletedNews) {
+            return res.status(404).json({ message: "News not found" });
+        }
+        res.json({ message: "News deleted", news: deletedNews });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
